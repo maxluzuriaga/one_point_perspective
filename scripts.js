@@ -4,8 +4,9 @@ var canvas;
 var ctx;
 var cubes;
 var vp;
-var dragging;
+var dragging = false;
 var dragIndex;
+var dragPoint;
 
 function clear() {
 	ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -49,18 +50,52 @@ function drawVP() {
 
 function mouseDownListener(evt) {
 	var bRect = canvas.getBoundingClientRect();
-	mouseX = (evt.clientX - bRect.left)*(WIDTH/bRect.width);
-	mouseY = (evt.clientY - bRect.top)*(HEIGHT/bRect.height);
-
-	console.log(mouseX + ", " + mouseY);
+	var mouseX = (evt.clientX - bRect.left)*(WIDTH/bRect.width);
+	var mouseY = (evt.clientY - bRect.top)*(HEIGHT/bRect.height);
 
 	for (var i = 0; i < cubes.length; i++) {
 		if (cubes[i].hitTest(mouseX, mouseY)) {
 			dragging = true;
 			dragIndex = i;
-			console.log("HIT");
 		}
-	};
+	}
+
+	if (dragging) {
+		window.addEventListener("mousemove", mouseMoveListener, false);
+
+		dragPoint = [mouseX, mouseY];
+	}
+
+	canvas.removeEventListener("mousedown", mouseDownListener, false);
+	window.addEventListener("mouseup", mouseUpListener, false);
+
+	evt.preventDefault();
+
+	return false;
+}
+
+function mouseMoveListener(evt) {
+	var bRect = canvas.getBoundingClientRect();
+	var mouseX = (evt.clientX - bRect.left)*(WIDTH/bRect.width);
+	var mouseY = (evt.clientY - bRect.top)*(HEIGHT/bRect.height);
+
+	var xDiff = mouseX - dragPoint[0];
+	var yDiff = mouseY - dragPoint[1];
+
+	cubes[dragIndex].x += xDiff;
+	cubes[dragIndex].y += yDiff;
+
+	dragPoint = [mouseX, mouseY];
+}
+
+function mouseUpListener() {
+	canvas.addEventListener("mousedown", mouseDownListener, false);
+	window.removeEventListener("mouseup", mouseUpListener, false);
+
+	if(dragging) {
+		dragging = false;
+		window.removeEventListener("mousemove", mouseMoveListener, false);
+	}
 }
 
 function init() {
@@ -73,7 +108,9 @@ function init() {
 
 	vp = [WIDTH/2, HEIGHT/2];
 
-	cubes = [new Cube(280, 180, 150, 90, 50, "rgba(255, 255, 0, 0.5)")];
+	cubes = [];
+	cubes.push(new Cube(280, 180, 150, 90, 50, "rgba(255, 255, 0, 0.5)"));
+	cubes.push(new Cube(50, 50, 150, 140, 70, "rgba(255, 0, 0, 0.5)"));
 
 	return setInterval(draw, 10);
 }
@@ -82,7 +119,9 @@ function draw() {
 	clear();
 	drawVP();
 
-	cubes[0].draw(ctx, vp);
+	for (var i = 0; i < cubes.length; i++) {
+		cubes[i].draw(ctx, vp);
+	}
 }
 
 $(document).ready(function() {
