@@ -1,8 +1,11 @@
 var WIDTH;
 var HEIGHT;
+var canvas;
 var ctx;
-var cube;
+var cubes;
 var vp;
+var dragging;
+var dragIndex;
 
 function clear() {
 	ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -44,14 +47,33 @@ function drawVP() {
 	ctx.fill();
 }
 
+function mouseDownListener(evt) {
+	var bRect = canvas.getBoundingClientRect();
+	mouseX = (evt.clientX - bRect.left)*(WIDTH/bRect.width);
+	mouseY = (evt.clientY - bRect.top)*(HEIGHT/bRect.height);
+
+	console.log(mouseX + ", " + mouseY);
+
+	for (var i = 0; i < cubes.length; i++) {
+		if (cubes[i].hitTest(mouseX, mouseY)) {
+			dragging = true;
+			dragIndex = i;
+			console.log("HIT");
+		}
+	};
+}
+
 function init() {
-	ctx = $('#canvas')[0].getContext("2d");
-	WIDTH = $("#canvas").width();
-	HEIGHT = $("#canvas").height();
+	canvas = $('#canvas')[0];
+	ctx = canvas.getContext("2d");
+	WIDTH = canvas.width;
+	HEIGHT = canvas.height;
+
+	canvas.addEventListener("mousedown", mouseDownListener, false);
 
 	vp = [WIDTH/2, HEIGHT/2];
 
-	cube = new Cube(280, 180, 150, 90, 50, "rgba(255, 255, 0, 0.5)");
+	cubes = [new Cube(280, 180, 150, 90, 50, "rgba(255, 255, 0, 0.5)")];
 
 	return setInterval(draw, 10);
 }
@@ -60,7 +82,7 @@ function draw() {
 	clear();
 	drawVP();
 
-	cube.draw(ctx, vp);
+	cubes[0].draw(ctx, vp);
 }
 
 $(document).ready(function() {

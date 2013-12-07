@@ -27,3 +27,10 @@ Cube.prototype.draw = function(ctx, vp) {
 	ctx.fillStyle = this.color;
 	ctx.fillRect(this.x, this.y, this.width, this.height);
 }
+
+Cube.prototype.hitTest = function(mouseX, mouseY) {
+	var distX = mouseX - this.x;
+	var distY = mouseY - this.y;
+
+	return ((distX >= 0) && (distX <= this.width)) && ((distY >= 0) && (distY <= this.height));
+}
