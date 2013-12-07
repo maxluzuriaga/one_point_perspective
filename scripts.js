@@ -2,6 +2,7 @@ var WIDTH;
 var HEIGHT;
 var ctx;
 var cube;
+var vp;
 
 function clear() {
 	ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -26,20 +27,40 @@ function drawPoly(color, points) {
 	ctx.fill();
 }
 
+function drawVP() {
+	ctx.strokeStyle = "#000";
+	ctx.fillStyle = "#00f";
+
+	ctx.beginPath();
+	ctx.lineWidth = 2;
+
+	ctx.moveTo(0, vp[1]);
+	ctx.lineTo(WIDTH, vp[1]);
+
+	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.arc(vp[0], vp[1], 3, 0, Math.PI*2, true);
+	ctx.fill();
+}
+
 function init() {
 	ctx = $('#canvas')[0].getContext("2d");
 	WIDTH = $("#canvas").width();
 	HEIGHT = $("#canvas").height();
 
-	cube = new Cube(120, 50, 150, 90, 50, "#0F0");
+	vp = [WIDTH/2, HEIGHT/2];
+
+	cube = new Cube(280, 180, 150, 90, 50, "rgba(255, 255, 0, 0.5)");
 
 	return setInterval(draw, 10);
 }
 
 function draw() {
 	clear();
+	drawVP();
 
-	cube.draw(ctx);
+	cube.draw(ctx, vp);
 }
 
 $(document).ready(function() {
