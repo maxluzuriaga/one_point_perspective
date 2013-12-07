@@ -10,7 +10,7 @@ function Cube(x, y, width, height, depth, color) {
 Cube.prototype.draw = function(ctx, vp) {
 	var corners = [[this.x, this.y], [this.x + this.width, this.y], [this.x + this.width, this.y + this.height], [this.x, this.y + this.height]];
 
-	ctx.strokeStyle = '#f00';
+	ctx.strokeStyle = this.color;
 	ctx.lineWidth = 1;
 
 	for (var i = 0; i < 4; i++) {

@@ -82,10 +82,15 @@ function mouseMoveListener(evt) {
 	var xDiff = mouseX - dragPoint[0];
 	var yDiff = mouseY - dragPoint[1];
 
-	cubes[dragIndex].x += xDiff;
-	cubes[dragIndex].y += yDiff;
+	var newX = cubes[dragIndex].x + xDiff;
+	var newY = cubes[dragIndex].y + yDiff;
 
-	dragPoint = [mouseX, mouseY];
+	if (((newX + cubes[dragIndex].width > 0) && (newX < WIDTH)) && ((newY + cubes[dragIndex].height > 0) && (newY < HEIGHT))) {
+		cubes[dragIndex].x = newX;
+		cubes[dragIndex].y = newY;
+
+		dragPoint = [mouseX, mouseY];
+	}
 }
 
 function mouseUpListener() {
