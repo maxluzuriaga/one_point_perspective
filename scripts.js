@@ -5,6 +5,7 @@ var ctx;
 var cubes;
 var vp;
 var dragging = false;
+var draggingPoint = false;
 var dragIndex;
 var dragPoint;
 
@@ -60,7 +61,16 @@ function mouseDownListener(evt) {
 		}
 	}
 
-	if (dragging) {
+	if (!dragging) {
+		var xDist = Math.abs(mouseX - vp[0]);
+		var yDist = Math.abs(mouseY - vp[1]);
+
+		if ((xDist <= 5) && (yDist <= 5)) {
+			draggingPoint = true;
+		}
+	}
+
+	if (dragging || draggingPoint) {
 		window.addEventListener("mousemove", mouseMoveListener, false);
 
 		dragPoint = [mouseX, mouseY];
@@ -82,14 +92,25 @@ function mouseMoveListener(evt) {
 	var xDiff = mouseX - dragPoint[0];
 	var yDiff = mouseY - dragPoint[1];
 
-	var newX = cubes[dragIndex].x + xDiff;
-	var newY = cubes[dragIndex].y + yDiff;
+	if (dragging) {
+		var newX = cubes[dragIndex].x + xDiff;
+		var newY = cubes[dragIndex].y + yDiff;
 
-	if (((newX + cubes[dragIndex].width > 0) && (newX < WIDTH)) && ((newY + cubes[dragIndex].height > 0) && (newY < HEIGHT))) {
-		cubes[dragIndex].x = newX;
-		cubes[dragIndex].y = newY;
+		if (((newX + cubes[dragIndex].width > 0) && (newX < WIDTH)) && ((newY + cubes[dragIndex].height > 0) && (newY < HEIGHT))) {
+			cubes[dragIndex].x = newX;
+			cubes[dragIndex].y = newY;
 
-		dragPoint = [mouseX, mouseY];
+			dragPoint = [mouseX, mouseY];
+		}
+	} else if (draggingPoint) {
+		var newX = vp[0] + xDiff;
+		var newY = vp[1] + yDiff;
+
+		if (((newX > 0) && (newX < WIDTH)) && ((newY > 0) && (newY < HEIGHT))) {
+			vp = [newX, newY];
+
+			dragPoint = [mouseX, mouseY];
+		}
 	}
 }
 
@@ -97,8 +118,9 @@ function mouseUpListener() {
 	canvas.addEventListener("mousedown", mouseDownListener, false);
 	window.removeEventListener("mouseup", mouseUpListener, false);
 
-	if(dragging) {
+	if(dragging || draggingPoint) {
 		dragging = false;
+		draggingPoint = false;
 		window.removeEventListener("mousemove", mouseMoveListener, false);
 	}
 }
