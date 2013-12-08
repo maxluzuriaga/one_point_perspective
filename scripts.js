@@ -70,16 +70,17 @@ function mouseDownListener(evt) {
 		if ((xDist <= 5) && (yDist <= 5)) {
 			draggingPoint = true;
 		}
+	} else {
+		updateFields();
 	}
 
 	if (dragging || draggingPoint) {
 		window.addEventListener("mousemove", mouseMoveListener, false);
 
 		dragPoint = [mouseX, mouseY];
-
-		updateFields();
 	}
 
+	// alert("adding listeners");
 	canvas.removeEventListener("mousedown", mouseDownListener, false);
 	window.addEventListener("mouseup", mouseUpListener, false);
 
