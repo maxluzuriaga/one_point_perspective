@@ -12,7 +12,7 @@ var dragPoint;
 function clear() {
 	ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-	ctx.fillStyle = "ccc";
+	ctx.fillStyle = "#eee";
 	ctx.fillRect(0, 0, WIDTH, HEIGHT);
 }
 
@@ -33,11 +33,11 @@ function drawPoly(color, points) {
 }
 
 function drawVP() {
-	ctx.strokeStyle = "#000";
-	ctx.fillStyle = "#00f";
+	ctx.strokeStyle = "#999999";
+	ctx.fillStyle = "#222";
 
 	ctx.beginPath();
-	ctx.lineWidth = 2;
+	ctx.lineWidth = 1;
 
 	ctx.moveTo(0, vp[1]);
 	ctx.lineTo(WIDTH, vp[1]);
@@ -58,6 +58,8 @@ function mouseDownListener(evt) {
 		if (cubes[i].hitTest(mouseX, mouseY)) {
 			dragging = true;
 			dragIndex = i;
+
+			$("#controls").css('background-color', cubes[i].topColor);
 		}
 	}
 
@@ -74,6 +76,8 @@ function mouseDownListener(evt) {
 		window.addEventListener("mousemove", mouseMoveListener, false);
 
 		dragPoint = [mouseX, mouseY];
+
+		updateFields();
 	}
 
 	canvas.removeEventListener("mousedown", mouseDownListener, false);
@@ -102,6 +106,8 @@ function mouseMoveListener(evt) {
 
 			dragPoint = [mouseX, mouseY];
 		}
+
+		updateFields();
 	} else if (draggingPoint) {
 		var newX = vp[0] + xDiff;
 		var newY = vp[1] + yDiff;
@@ -136,9 +142,9 @@ function init() {
 	vp = [WIDTH/2, HEIGHT/2];
 
 	cubes = [];
-	cubes.push(new Cube(270, 180, 100, 100, 100, "rgba(255, 255, 0, 0.5)"));
-	cubes.push(new Cube(380, 50, 100, 100, 100, "rgba(0, 255, 0, 0.5)"));
-	cubes.push(new Cube(50, 50, 150, 140, 70, "rgba(255, 0, 0, 0.5)"));
+	cubes.push(new Cube(270, 180, 100, 100, 100, "#ca0000", "#a50000", "#7b0000"));
+	cubes.push(new Cube(380, 50, 100, 100, 100, "#00d419", "#00b515", "#009011"));
+	cubes.push(new Cube(50, 50, 150, 140, 70, "#0061ce", "#0052af", "#00428c"));
 
 	return setInterval(draw, 10);
 }
@@ -147,11 +153,34 @@ function draw() {
 	clear();
 	drawVP();
 
+		for (var i = 0; i < cubes.length; i++) {
+		cubes[i].drawLines(ctx, vp);
+	}
+
 	for (var i = 0; i < cubes.length; i++) {
 		cubes[i].draw(ctx, vp, drawPoly);
 	}
 }
 
+function updateFields() {
+	var cube = cubes[dragIndex];
+	$("#x").val(Math.floor(cube.x));
+	$("#y").val(Math.floor(cube.y));
+	$("#width").val(Math.floor(cube.width));
+	$("#height").val(Math.floor(cube.height));
+	$("#depth").val(Math.floor(cube.depth));
+}
+
 $(document).ready(function() {
 	init();
+
+	$("input").change(function() {
+		if (!dragging) {
+			cubes[dragIndex].x = parseInt($("#x").val());
+			cubes[dragIndex].y = parseInt($("#y").val());
+			cubes[dragIndex].width = parseInt($("#width").val());
+			cubes[dragIndex].height = parseInt($("#height").val());
+			cubes[dragIndex].depth = parseInt($("#depth").val());
+		}
+	});
 });
