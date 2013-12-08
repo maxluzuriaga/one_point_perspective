@@ -43,6 +43,7 @@ body {
 #controls {
 	padding: 20px 157px;
 	background: #000;
+	margin-bottom: 15px;
 }
 
 label {
@@ -65,7 +66,7 @@ input {
 p {
 	text-align: center;
 	font-style: italic;
-	margin-top: 20px;
+	margin-top: 10px;
 }
 p a {
 	text-decoration: none;
