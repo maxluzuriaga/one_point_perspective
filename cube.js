@@ -1,7 +1,7 @@
 function Cube(x, y, width, height, depth, color, sideColor, topColor) {
 	this.x = x;
 	this.y = y;
-	this.z = 650;
+	this.z = 700;
 	this.width = width;
 	this.height = height;
 	this.depth = depth;
