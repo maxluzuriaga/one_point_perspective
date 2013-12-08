@@ -136,7 +136,8 @@ function init() {
 	vp = [WIDTH/2, HEIGHT/2];
 
 	cubes = [];
-	cubes.push(new Cube(280, 180, 150, 90, 50, "rgba(255, 255, 0, 0.5)"));
+	cubes.push(new Cube(270, 180, 100, 100, 100, "rgba(255, 255, 0, 0.5)"));
+	cubes.push(new Cube(380, 50, 100, 100, 100, "rgba(0, 255, 0, 0.5)"));
 	cubes.push(new Cube(50, 50, 150, 140, 70, "rgba(255, 0, 0, 0.5)"));
 
 	return setInterval(draw, 10);
@@ -147,7 +148,7 @@ function draw() {
 	drawVP();
 
 	for (var i = 0; i < cubes.length; i++) {
-		cubes[i].draw(ctx, vp);
+		cubes[i].draw(ctx, vp, drawPoly);
 	}
 }
 
