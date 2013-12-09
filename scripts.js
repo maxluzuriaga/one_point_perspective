@@ -11,9 +11,6 @@ var dragPoint;
 
 function clear() {
 	ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-	ctx.fillStyle = "#eee";
-	ctx.fillRect(0, 0, WIDTH, HEIGHT);
 }
 
 function drawPoly(color, points) {

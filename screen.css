@@ -35,15 +35,27 @@ body {
 }
 
 #canvas {
+	background: #eee;
 	border: 2px solid #999999;
 	border-bottom: 0;
 	margin-bottom: 0;
 	vertical-align: bottom;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	border-radius: 15px 15px 0 0;
+
+	overflow: hidden;
+	-webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
 }
 #controls {
 	padding: 20px 157px;
 	background: #000;
 	margin-bottom: 15px;
+		box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	border-radius: 0 0 15px 15px;
 }
 
 label {
