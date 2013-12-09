@@ -6,7 +6,7 @@ var cubes;
 var vp;
 var dragging = false;
 var draggingPoint = false;
-var dragIndex;
+var dragIndex = null;
 var dragPoint;
 var showLines;
 
@@ -143,8 +143,8 @@ function init() {
 	vp = [WIDTH/2, HEIGHT/2];
 
 	cubes = [];
-	cubes.push(new Cube(230, 380, 150, 150, 100, "#ca0000", "#a50000", "#7b0000"));
 	cubes.push(new Cube(730, 60, 100, 100, 100, "#00d419", "#00b515", "#009011"));
+	cubes.push(new Cube(230, 380, 150, 150, 100, "#ca0000", "#a50000", "#7b0000"));
 	cubes.push(new Cube(50, 50, 150, 140, 200, "#0061ce", "#0052af", "#00428c"));
 	cubes.push(new Cube(630, 400, 300, 100, 500, "#dc6d00", "#ba5c00", "#a04f00"));
 
@@ -179,7 +179,7 @@ $(document).ready(function() {
 	init();
 
 	$("input[type=number]").change(function() {
-		if (!dragging && dragIndex) {
+		if (!dragging && (dragIndex != null)) {
 			cubes[dragIndex].x = parseInt($("#x").val());
 			cubes[dragIndex].y = parseInt($("#y").val());
 			cubes[dragIndex].width = parseInt($("#width").val());
