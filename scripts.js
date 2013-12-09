@@ -8,6 +8,7 @@ var dragging = false;
 var draggingPoint = false;
 var dragIndex;
 var dragPoint;
+var showLines;
 
 function clear() {
 	ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -130,6 +131,8 @@ function mouseUpListener() {
 }
 
 function init() {
+	showLines = true;
+
 	canvas = $('#canvas')[0];
 	ctx = canvas.getContext("2d");
 	WIDTH = canvas.width;
@@ -152,8 +155,10 @@ function draw() {
 	clear();
 	drawVP();
 
+	if (showLines) {
 		for (var i = 0; i < cubes.length; i++) {
-		cubes[i].drawLines(ctx, vp);
+			cubes[i].drawLines(ctx, vp);
+		}
 	}
 
 	for (var i = 0; i < cubes.length; i++) {
@@ -173,13 +178,17 @@ function updateFields() {
 $(document).ready(function() {
 	init();
 
-	$("input").change(function() {
-		if (!dragging) {
+	$("input[type=number]").change(function() {
+		if (!dragging && dragIndex) {
 			cubes[dragIndex].x = parseInt($("#x").val());
 			cubes[dragIndex].y = parseInt($("#y").val());
 			cubes[dragIndex].width = parseInt($("#width").val());
 			cubes[dragIndex].height = parseInt($("#height").val());
 			cubes[dragIndex].depth = parseInt($("#depth").val());
 		}
+	});
+
+	$("#show_lines").change(function() {
+		showLines = this.checked;
 	});
 });

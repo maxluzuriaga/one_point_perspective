@@ -46,10 +46,11 @@ body {
 	border-radius: 15px 15px 0 0;
 
 	overflow: hidden;
+	/* http://stackoverflow.com/questions/15007903/html5-canvas-with-rounded-corner */
 	-webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
 }
 #controls {
-	padding: 20px 157px;
+	padding: 20px 122px;
 	background: #000;
 	margin-bottom: 15px;
 		box-sizing:border-box;
@@ -63,11 +64,16 @@ label {
 	margin-right: 5px;
 	color: #FFF;
 }
-input {
+input[type=number] {
 	margin-right: 20px;
 	width: 70px;
 	height: 20px;
 	border: none;
+}
+input[type=checkbox] {
+	margin-right: 0;
+	width: 20px;
+	height: 22px;
 }
 
 #main {
